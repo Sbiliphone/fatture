@@ -1,0 +1,26 @@
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none;
+}
+
+.div1{
+    float: left;
+    display: inline-block;
+    width: 50%;
+}
+
+.div2{
+    float: right;
+    display: inline-block;
+    width: 50%;
+}
+
+.divAnteprima{
+    margin-top: 10%;
+    border: 2px solid black;
+    padding: 10px;
+}
+
+.visible{
+    display: block;
+}
+

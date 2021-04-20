@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="Style.css">
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <title>Fattura</title>
+</head>
+<body ng-app="app">
+<div ng-controller="ctrl1">
+
+    <div>
+        <h4>Società che compila la fattura</h4>
+
+        <select onchange="compilaAzienda1(this.value)">
+            <option value="" disabled selected>Aziende Salvate</option>
+            <option value="{{item.Name}}" ng-repeat="item in aziende">{{item.Name}}</option>
+        </select>
+
+        <form name="societa1" novalidate>
+           <input type="text" ng-model="societaUno" placeholder="Nome società">
+            <input type="text" ng-model="viaUno" placeholder="Via e numero civico ">
+           <input type="number" ng-model="CAPUno" placeholder="CAP" ng-maxlength="5" name="CAPUno" ng-class="{'': societa1.CAPUno.$pristine,
+                          'validClass': societa1.CAPUno.$valid,
+                          'invalidClass': societa1.CAPUno.$invalid}">
+            <div ng-show="societa1.CAPUno.$invalid">
+                Il cap non può superare le 5 cifre
+            </div>
+           <input type="text" ng-model="cittaUno" placeholder="città">
+           <input type="text" ng-model="provinciaUno" placeholder="provincia">
+           <input type="number" ng-model="telefonoUno" placeholder="telefono o cellulare" name="telefonoUno" ng-maxlength="10" ng-class="{'': societa1.telefonoUno.$pristine,
+                          'validClass': societa1.telefonoUno.$valid,
+                          'invalidClass': societa1.telefonoUno.$invalid}">
+            <div ng-show="societa1.telefonoUno.$invalid">
+                Il numero di telefono non può superare le 9 cifre
+            </div>
+            <input type="text" ng-model="condizioniPagamento" placeholder="Condizioni Pagamento">
+        </form>
+
+        <h4>Società che riceve la fattura</h4>
+        <select onchange="compilaAzienda2(this.value)">
+            <option value="" disabled selected>Aziende Salvate</option>
+            <option value="{{item.Name}}" ng-repeat="item in aziende">{{item.Name}}</option>
+        </select>
+        <form name="societa2" novalidate>
+            <input type="text" ng-model="Nome" placeholder="Nome destinatario">
+            <input type="text" ng-model="societaDue" placeholder="Nome società">
+            <input type="text" ng-model="viaDue" placeholder="Via e numero civico">
+            <input type="number" ng-model="CAPDue" placeholder="CAP" ng-maxlength="5" name="CAPDue" ng-class="{'': CAPDue.$pristine,
+                          'validClass': CAPDue.$valid,
+                          'invalidClass': CAPDue.$invalid}" >
+            <div ng-show="societa2.CAPDue.$invalid">
+                Il cap non può superare le 5 cifre
+            </div>
+            <input type="text" ng-model="cittaDue" placeholder="Citta">
+            <input type="text" ng-model="provinciaDue" placeholder="Provincia">
+            <input type="number" ng-model="telefonoDue" placeholder="Telefono o cellulare" ng-maxlength="10" name="telefonoDue" ng-class="{'': telefonoDue.$pristine,
+                          'validClass': telefonoDue.$valid,
+                          'invalidClass': telefonoDue.$invalid}">
+                <div ng-show="societa2.telefonoDue.$invalid">
+                    Il numero di telefono non può superare le 9 cifre
+                </div>
+            <input type="text" ng-model="emailDue" placeholder="Email">
+        </form>
+        <h4>Inserimento Prodotti</h4>
+        <input type="text" ng-model="nomeProdotto" placeholder="Nome prodotto">
+        <input type="number" ng-model="costoProdotto" placeholder="Costo Unitario">
+        <input type="number" ng-model="quantita" placeholder="Quantita">
+        <button onclick="AggiungiProdotto()">Aggiungi</button>
+
+    </div>
+
+    <div class="divAnteprima">
+        <h1>Fattura</h1>
+        <div class="div1">
+
+            {{societaUno}} <br>
+            {{viaUno}} <br>
+            {{CAPUno}} <br>
+            {{cittaUno}} <br>
+            {{provinciaUno}} <br>
+            {{telefonoUno}} <br>
+
+            <h4>Indirizzo di fatturazione</h4> <br>
+
+            {{Nome}} <br>
+            {{societaDue}} <br>
+            {{viaDue}} <br>
+            {{CAPDue}} <br>
+            {{cittaDue}} <br>
+            {{provinciaDue}} <br>
+            {{telefonoDue}} <br>
+            {{emailDue}} <br><br>
+        </div>
+        <div class="div2">
+
+            <table border="1" style="border-collapse: collapse; width: 100%;">
+                <tbody>
+                <tr>
+                    <td style="width: 50%; text-align: center;">Data</td>
+                </tr>
+                <tr>
+                    <td style="width: 50%; text-align: center;">{{ formatDate() | date:'dd/MM/yyyy' }}</td>
+                </tr>
+                <tr>
+                    <td style="width: 50%; text-align: center;">Condizioni pagamento</td>
+                </tr>
+                <tr>
+                    <td style="width: 50%; text-align: center;">{{condizioniPagamento}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="div3">
+            <table border="1" style="border-collapse: collapse; width: 100%; text-align: center" id="tabellaProdotti">
+                <tbody>
+                <tr>
+                    <td style="width: 33.333333333333336%;"><b>Nome Prodotto</b></td>
+                    <td style="width: 33.333333333333336%;"><b>Costo Unitario</b></td>
+                    <td style="width: 33.333333333333336%;"><b>Quantita</b></td>
+                </tr>
+                </tbody>
+            </table><br>
+            <span><b>Totale: </b></span><span id="totale"></span><span> €</span>
+        </div>
+
+    </div>
+</div>
+
+</body>
+
+<script src="Script.js"></script>
+</html>
